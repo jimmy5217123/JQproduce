@@ -101,7 +101,8 @@ class App extends React.Component {
             Waterlevel: 1,
             ENVtemp: 1,
             PVtemp: 1,
-            invInput: []
+            invInput: [],
+            JQtext: ''
         };
     }
     getValue = (value, id) => {
@@ -119,7 +120,10 @@ class App extends React.Component {
         }
         dataObj.invInput = invArray
         console.log(dataObj)
-        calculate(e, dataObj)
+        this.setState({
+            JQtext: calculate(e, dataObj)
+        })
+        console.log(this.state.JQtext)
     }
 
     render() {
@@ -145,6 +149,7 @@ class App extends React.Component {
                 <div>
                     <button onClick={() => this.getAllData()}>get all data</button>
                 </div>
+                <div>{this.state.JQtext}</div>
             </div>
         )
     }
@@ -162,7 +167,7 @@ function calculate(event, data) {
 
     console.log(data)
     // 假使被輸入了無法順利轉換成為數值的字串內容的話，內建函數 Number  就會傳回「並不是一個數值 (NaN, not a number)」...。
-    var INVNumber, MPPTNumber, LocateName, LocateID, IRRNumber, INVevent, HVMeter, LVMeter, PV_P, POWER_S, POWER_R, POWER_T, EFF;
+    var AllCapacity, INVNumber, MPPTNumber, LocateName, LocateID, IRRNumber, INVevent, HVMeter, LVMeter, PV_P, POWER_S, POWER_R, POWER_T, EFF;
     var Waterlevel, Anemometer, ENVtemp, PVtemp;
     LocateName = data.factoryName;
     LocateID = data.factoryNumber;
@@ -176,6 +181,7 @@ function calculate(event, data) {
     Waterlevel = data.Waterlevel
     ENVtemp = data.ENVtemp
     PVtemp = data.PVtemp
+    AllCapacity = data.invArray
     PV_P = `GenerateByIndex("inv_"; .inverterIndexes; "pv_p"; .PVIndexes; .data)`
     POWER_R = `GenerateA("inv_"; .inverterIndexes; "power_r"; .data)`
     POWER_S = `GenerateA("inv_"; .inverterIndexes; "power_s"; .data)`
@@ -363,13 +369,12 @@ function calculate(event, data) {
     console.log(INVARR);
     console.log(MPPTARR);
     console.log(IRRARR);
-    if (event.target.id = "calculate_button");
-    {
-        const checkarr = [LocateName, LocateID, INVNumber, MPPTNumber]
-        const check = checkarr.every(x => x !== '' && x !== 0)
-        console.log(checkarr);
-        if (!check) return
-        message_box.innerText = `def FormatFloat: . * 100 | floor | . / 100;
+    // if (event.target.id = "calculate_button");
+// const checkarr = [LocateName, LocateID, INVNumber, MPPTNumber]
+// const check = checkarr.every(x => x !== '' && x !== 0)
+// if (!check) return
+
+return `def FormatFloat: . * 100 | floor | . / 100;
 def GenerateCapacity($source_indexes):
 map(   
 $source_indexes
@@ -589,5 +594,4 @@ ${etc}
 SYSTIME: (now | floor | tostring)
 }
 }`;
-    }
 }
