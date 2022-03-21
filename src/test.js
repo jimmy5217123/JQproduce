@@ -149,7 +149,7 @@ class App extends React.Component {
                 <div>
                     <button onClick={() => this.getAllData()}>get all data</button>
                 </div>
-                <pre>>{this.state.JQtext}</pre>
+                <pre>{this.state.JQtext}</pre>
             </div>
         )
     }

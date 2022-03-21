@@ -230,7 +230,6 @@ var App = function (_React$Component3) {
                 React.createElement(
                     'pre',
                     null,
-                    '>',
                     this.state.JQtext
                 )
             );
