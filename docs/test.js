@@ -228,8 +228,9 @@ var App = function (_React$Component3) {
                     )
                 ),
                 React.createElement(
-                    'div',
+                    'pre',
                     null,
+                    '>',
                     this.state.JQtext
                 )
             );
@@ -279,14 +280,7 @@ function calculate(event, data) {
             EFF = 'GenerateADivideB("inv_"; .inverterIndexes; "acp"; "dcp"; .data)';
             break;
     }
-    console.log(HVMeter);
-    console.log(LVMeter);
-    console.log(Anemometer);
-    console.log(Waterlevel);
-    console.log(POWER_R);
-    console.log(POWER_S);
-    console.log(POWER_T);
-    console.log(EFF);
+
     var IRRValue = '';
     var IRRErrorMessage = '';
     if (IRRNumber == 0) {
@@ -370,13 +364,11 @@ function calculate(event, data) {
         }
     }
 
-    console.log(INVARR);
-    console.log(MPPTARR);
-    console.log(IRRARR);
-    // if (event.target.id = "calculate_button");
-    // const checkarr = [LocateName, LocateID, INVNumber, MPPTNumber]
-    // const check = checkarr.every(x => x !== '' && x !== 0)
-    // if (!check) return
+    var checkarr = [LocateName, LocateID, INVNumber, MPPTNumber];
+    var check = checkarr.every(function (x) {
+        return x !== '' && x !== 0;
+    });
+    if (!check) return;
 
     return 'def FormatFloat: . * 100 | floor | . / 100;\ndef GenerateCapacity($source_indexes):\nmap(   \n$source_indexes\n)\n;\ndef GenerateINVStatus($source_prefix; $source_indexes; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status !=0 then "\u8A2D\u5099\u65B7\u8A0A" else 0 end\n)\n;\ndef GenerateStatus($source_prefix; $data):\n(\nif $data."\\($source_prefix)".status !=0 then "\u8A2D\u5099\u65B7\u8A0A" else 0 end\n)\n;\ndef EventOneArray($source_prefix; $event_indexes; $data):\n$event_indexes | map(\nif $data."\\($source_prefix)".status == 0 then $data."\\($source_prefix)"."\\((.|tostring))" else -1 end\n)\n;\ndef GenerateEvent($source_prefix; $source_indexes; $a; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status == 0 then\n    $data."\\($source_prefix+(.|tostring))"."\\($a)" | FormatFloat\nelse 0 end\n)\n;\ndef Generate($source; $tag_prefix; $data):\n(\nif $data."\\($source)".status == 0 then\n(\nif ($data."\\($source)"."\\($tag_prefix)" ) != null\nthen\n($data."\\($source)"."\\($tag_prefix)") | FormatFloat\nelse\n($data."\\($source)"."\\($tag_prefix)")\nend\n)\nelse 0 end\n)\n;\ndef GenerateConstSourceByIndex($source; $tag_prefix; $tag_indexes; $data):\n(\n(\n$tag_indexes | map(\n    if $data."\\($source)".status == 0 then (\n        if\n        ($data."\\($source)"."\\($tag_prefix+(.|tostring))") != null\n        then\n        $data."\\($source)"."\\($tag_prefix+(.|tostring))"| FormatFloat\n        else ($data."\\($source)"."\\($tag_prefix+(.|tostring))")\n        end )\n    else 0 end\n)\n)\n)\n;\ndef GenerateByIndex($source_prefix; $source_indexes; $tag_prefix; $tag_indexes; $data):\n$source_indexes | map(\nGenerateConstSourceByIndex($source_prefix+(.|tostring); $tag_prefix; $tag_indexes; $data)\n)\n;\ndef GenerateA($source_prefix; $source_indexes; $a; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status == 0 then(\n    if ($data."\\($source_prefix+(.|tostring))"."\\($a)" ) > 0 \n    then\n    $data."\\($source_prefix+(.|tostring))"."\\($a)" | FormatFloat\n    else 0 end )\nelse 0 end\n)\n;\ndef GenerateABDivisor($source_prefix; $source_indexes; $a; $b; $divisor; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status == 0 then\n(\n    if (( $data."\\($source_prefix+(.|tostring))"."\\($a)" ) != 0 and ( $data."\\($source_prefix+(.|tostring))"."\\($b)") != 0)\n    then\n    $data."\\($source_prefix+(.|tostring))"."\\($a)" * $data."\\($source_prefix+(.|tostring))"."\\($b)" / $divisor | FormatFloat\n    else 0 end\n)\nelse 0 end\n)\n;\ndef GenerateACrossor($source_prefix; $source_indexes; $a; $crossor; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status == 0 then\n    $data."\\($source_prefix+(.|tostring))"."\\($a)" * $crossor | FormatFloat\nelse 0 end\n)\n;\ndef GeneratetempSourceByIndex($source; $tag_prefix; $tag_indexes; $data):\n$tag_indexes | map(\nif $data."\\($source)".status == 0 then\n    $data."\\($source)"."\\($tag_prefix)" | FormatFloat\nelse 0 end\n)\n;\ndef GenerateOnlyOneTempIndex($source_prefix; $source_indexes; $tag_prefix; $tag_indexes; $data):\n$source_indexes | map(\nGeneratetempSourceByIndex($source_prefix+(.|tostring); $tag_prefix; $tag_indexes; $data)\n)\n;\ndef GenerateABCrossor($source; $tag_prefix_a; $tag_prefix_b; $tag_indexes; $data):\n(\n(\n$tag_indexes | map(\n    if $data."\\($source)".status == 0 then (\n        if\n        ($data."\\($source)"."\\($tag_prefix_a+(.|tostring))") != null \n        then\n        $data."\\($source)"."\\($tag_prefix_a+(.|tostring))" * $data."\\($source)"."\\($tag_prefix_b+(.|tostring))"| FormatFloat\n        else "-1" end )\n    else 0 end\n)\n) | map(select(. != "-1"))\n)\n;\ndef GenerateCalculateABCrossorByIndex($source_prefix; $source_indexes; $tag_a; $tag_b; $tag_indexes; $data):\n$source_indexes | map(\nGenerateABCrossor($source_prefix+(.|tostring); $tag_a; $tag_b; $tag_indexes; $data)\n)\n;\ndef GenerateABCrossoranddivide1000($source; $tag_prefix_a; $tag_prefix_b; $tag_indexes; $data):\n(\n(\n$tag_indexes | map(\n    if $data."\\($source)".status == 0 then (\n        if\n        ($data."\\($source)"."\\($tag_prefix_a+(.|tostring))") and ($data."\\($source)"."\\($tag_prefix_b+(.|tostring))") != null \n        then\n        $data."\\($source)"."\\($tag_prefix_a+(.|tostring))" * $data."\\($source)"."\\($tag_prefix_b+(.|tostring))" / 1000 | FormatFloat\n        else \n        ($data."\\($source)"."\\($tag_prefix_a+(.|tostring))")\n        end )\n    else 0 end\n)\n) \n)\n;\ndef GenerateCalculateABCrossorByIndexanddivide1000($source_prefix; $source_indexes; $tag_a; $tag_b; $tag_indexes; $data):\n$source_indexes | map(\nGenerateABCrossoranddivide1000($source_prefix+(.|tostring); $tag_a; $tag_b; $tag_indexes; $data)\n)\n;\ndef GenerateADivideB($source_prefix; $source_indexes; $a; $b; $data):\n$source_indexes | map(\nif $data."\\($source_prefix+(.|tostring))".status == 0 then\n(\n    if (( $data."\\($source_prefix+(.|tostring))"."\\($a)" ) != 0 and ( $data."\\($source_prefix+(.|tostring))"."\\($b)") != 0)\n    then\n    $data."\\($source_prefix+(.|tostring))"."\\($a)" / $data."\\($source_prefix+(.|tostring))"."\\($b)" | FormatFloat\n    else 0 end\n)\nelse 0 end\n)\n;\n{\ninverterIndexes: [' + INVARR + '],\nPVIndexes: [' + MPPTARR + '],\niRRIndexes: [' + IRRARR + '],\ninvTempIndexes: [1],\ncapacityIndexes:[' + AllCapacity + '],\nDeltaEventIndexes:["alarm_E1","alarm_E2","alarm_E3","alarm_W1","alarm_W2","alarm_F1","alarm_F2","alarm_F3","alarm_F4","alarm_F5"],\nSolarEventIndexes:["event_Gb","event_M1","event_M2","event_M3"],\nHUAWEISUN2000EventIndexes:["event_1","event_2","event_3"],\ndata: .\n} |\n{\nfactoryName: "' + LocateName + '",\ntimestamp: (now+28800|strftime("%Y-%m-%dT%H:%M:%SZ")),\ndetail:\n{\nfactoryId: "' + LocateID + '",\nfactoryName: "' + LocateName + '",\npv_v: GenerateByIndex("inv_"; .inverterIndexes; "pv_v"; .PVIndexes; .data),\npv_a: GenerateByIndex("inv_"; .inverterIndexes; "pv_a"; .PVIndexes; .data),\npv_p: ' + PV_P + ',\nPF: GenerateA("inv_"; .inverterIndexes; "PF"; .data),\nVrn: GenerateA("inv_"; .inverterIndexes; "Vrs"; .data),\nVsn: GenerateA("inv_"; .inverterIndexes; "Vst"; .data),\nVtn: GenerateA("inv_"; .inverterIndexes; "Vrt"; .data),\nRc: GenerateA("inv_"; .inverterIndexes; "Rc"; .data),\nSc: GenerateA("inv_"; .inverterIndexes; "Sc"; .data),\nTc: GenerateA("inv_"; .inverterIndexes; "Tc"; .data),\nEff: ' + EFF + ',\ntemp: GenerateOnlyOneTempIndex("inv_"; .inverterIndexes; "temp"; .invTempIndexes; .data),\nState: GenerateA("inv_"; .inverterIndexes; "State"; .data),\nacp: GenerateA("inv_"; .inverterIndexes; "acp"; .data),\ndcp: GenerateA("inv_"; .inverterIndexes; "dcp"; .data),\nE_today: GenerateA("inv_"; .inverterIndexes; "E_today"; .data),\nAC_kWh: GenerateA("inv_"; .inverterIndexes; "AC_kwh"; .data),\nfreq: GenerateA("inv_"; .inverterIndexes; "freq"; .data),\nevent: [\n    ' + EVENTARR + '\n  ],\npower_r: ' + POWER_R + ',\npower_s: ' + POWER_S + ',\npower_t: ' + POWER_T + ',\ncapacity: (.capacityIndexes),\nIRR: ' + IRRValue + ',\nPVTemp: ' + PVtempValue + ',\nENVTemp: ' + ENVtempValue + ',\n' + WaterlevelMessage + '\n' + AnemometerMessage + '\nErrorMessage:\n    {\n    inv: GenerateINVStatus("inv_"; .inverterIndexes; .data),\n    ' + IRRErrorMessage + '\n    ' + PVtempErrorMessage + '\n    ' + ENVtempErrorMessage + '\n    ' + Errormessage + '\n    ' + WaterlevelErrormessage + '\n    ' + AnemometerErrormessage + '\n    },\n' + etc + '\nSYSTIME: (now | floor | tostring)\n}\n}';
 }

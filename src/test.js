@@ -149,7 +149,7 @@ class App extends React.Component {
                 <div>
                     <button onClick={() => this.getAllData()}>get all data</button>
                 </div>
-                <div>{this.state.JQtext}</div>
+                <pre>>{this.state.JQtext}</pre>
             </div>
         )
     }
@@ -198,14 +198,7 @@ function calculate(event, data) {
             EFF = `GenerateADivideB("inv_"; .inverterIndexes; "acp"; "dcp"; .data)`
             break;
     }
-    console.log(HVMeter)
-    console.log(LVMeter)
-    console.log(Anemometer)
-    console.log(Waterlevel)
-    console.log(POWER_R)
-    console.log(POWER_S)
-    console.log(POWER_T)
-    console.log(EFF)
+
     var IRRValue = ``
     var IRRErrorMessage = ``
     if (IRRNumber == 0) {
@@ -365,14 +358,9 @@ function calculate(event, data) {
         }
     }
 
-
-    console.log(INVARR);
-    console.log(MPPTARR);
-    console.log(IRRARR);
-    // if (event.target.id = "calculate_button");
-// const checkarr = [LocateName, LocateID, INVNumber, MPPTNumber]
-// const check = checkarr.every(x => x !== '' && x !== 0)
-// if (!check) return
+const checkarr = [LocateName, LocateID, INVNumber, MPPTNumber]
+const check = checkarr.every(x => x !== '' && x !== 0)
+if (!check) return
 
 return `def FormatFloat: . * 100 | floor | . / 100;
 def GenerateCapacity($source_indexes):
