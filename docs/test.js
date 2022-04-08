@@ -198,7 +198,7 @@ var App = function (_React$Component3) {
                 React.createElement(
                     'div',
                     null,
-                    React.createElement(InputComponent, { id: 'factoryName', label: '\u6848\u5834\u540D\u7A31dsadsads', type: 'text', factoryName: this.getValue }),
+                    React.createElement(InputComponent, { id: 'factoryName', label: '\u6848\u5834\u540D\u7A31\u54ED\u963F', type: 'text', factoryName: this.getValue }),
                     React.createElement(InputComponent, { id: 'factoryNumber', label: '\u6848\u5834\u7DE8\u865F', type: 'text', factoryNumber: this.getValue }),
                     React.createElement(InputComponent, { id: 'maxPvLength', label: '\u55AE\u53F0INV\u6700\u5927MPPT/PV\u6578\u91CF', type: 'number', maxPvLength: this.getValue }),
                     React.createElement(InputComponent, { id: 'irrLength', label: '\u65E5\u7167\u8A08\u6578\u91CF:(\u82E5\u7121\u5247\u586B0)', type: 'number', irrLength: this.getValue }),
