@@ -130,7 +130,7 @@ class App extends React.Component {
         return (
             <div>
                 <div>
-                    <InputComponent id="factoryName" label="案場名稱" type="text" factoryName={this.getValue}/>
+                    <InputComponent id="factoryName" label="案場名稱dsadsads" type="text" factoryName={this.getValue}/>
                     <InputComponent id="factoryNumber" label="案場編號" type="text" factoryNumber={this.getValue}/>
                     <InputComponent id="maxPvLength" label="單台INV最大MPPT/PV數量" type="number" maxPvLength={this.getValue}/>
                     <InputComponent id="irrLength" label="日照計數量:(若無則填0)" type="number" irrLength={this.getValue}/>
